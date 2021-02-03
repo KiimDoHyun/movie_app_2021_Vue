@@ -6,22 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    key: "",
-    id: "",
-    year: "",
-    title: "",
-    summary: "",
-    poster: "",
-    genres: ""
+    movies: []
   },
   mutations: {
+    setMovies(state, input) {
+      state.movies = input;
+    }
   },
   actions: {
-    getMovies() {
-      //get 통신으로 값을 가져오 state 의 값들을 
-      //통신 결과값으로 할당.
-      //컴포넌트, 뷰 에선 state 값을 가져다 쓰기만.
-      return null;
+    setMoviesInActions({ commit }, $data) {
+      commit('setMovies', $data);
     }
   },
   modules: {

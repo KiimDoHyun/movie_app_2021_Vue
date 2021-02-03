@@ -2,14 +2,14 @@
   <v-app>
     <menuBar />
     <v-main>
-      <home />
+      <router-link to="/"></router-link>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import menuBar from "./components/menuBar";
-import home from "./views/Home";
 
 export default {
   name: "App",
@@ -19,7 +19,6 @@ export default {
     menuBar,
 
     //views
-    home,
   },
 
   data: () => ({

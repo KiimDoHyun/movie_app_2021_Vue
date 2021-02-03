@@ -12,10 +12,11 @@
         sm="6"
         md="4"
         xl="4"
-        v-for="item in this.movies"
+        v-for="(item, index) in this.movies"
         :key="item.id"
       >
         <movie
+          :index="index"
           :key="item.id"
           :id="item.id"
           :year="item.year"
@@ -26,7 +27,6 @@
         />
       </v-col>
     </v-row>
-
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
   </v-container>
@@ -36,7 +36,8 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import movie from "../components/movie";
-// import vuex from "../store/index";
+// import store from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -45,9 +46,15 @@ export default {
 
   data() {
     return {
-      movies: [],
+      arr: [],
       isLoading: true,
     };
+  },
+
+  computed: {
+    ...mapState({
+      movies: (state) => state.movies,
+    }),
   },
 
   mounted() {
@@ -55,17 +62,21 @@ export default {
   },
 
   methods: {
+    ...mapMutations({
+      setMovies: "setMovies",
+    }),
+
     async getMovie() {
       await this.axios
         .get("https://yts-proxy.now.sh/list_movies.json?sort_by=rating")
         .then((res) => {
-          this.movies = res.data.data.movies;
+          this.arr = res.data.data.movies;
           console.log(res);
         })
         .catch((err) => {
           console.log(err);
         });
-
+      this.setMovies(this.arr);
       this.isLoading = false;
     },
   },
